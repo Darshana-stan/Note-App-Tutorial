@@ -1,0 +1,398 @@
+INTIALIZING NODE JS = npm init -y
+INSTALL EXPRESS =  npm install express@4.18.2 (specific version)
+create server.js inside of backend
+import express on it
+  "type" : "module", add this on package.json to prevent errors
+
+  To run dev 
+  
+  "scripts": {
+    "dev": "node server.js"
+  }, use this in package.js
+
+import express from 'express'
+
+const app = express();
+
+app.listen(5001, () => {
+    console.log('Server is running on port 5001')
+});
+
+This code creates a simple web server using **Express**, a popular tool in Node.js for building web applications. 
+It starts by importing the `express` module. 
+Then, it creates an `app` object by calling `express()`, which represents your web application. 
+Finally, it tells the app to **listen** for incoming connections on **port 5001**. When the server starts successfully, it prints the message “**Server is running on port 5001**” to the console. 
+This is like setting up a shop at address 5001 and putting up a sign saying the shop is open.
+
+app.get('/', (req, res) => { res.send('hello world') });
+app.get('/api/notes', (req, res) => { res.send('hukanakota riduna') });
+making apis
+
+lesson 2
+
+npm install nodemon -D
+The command `npm install nodemon -D` is used to install **nodemon** as a **development dependency** in a Node.js project. 
+**Nodemon** is a tool that automatically restarts your server whenever you make changes to your code, which saves time during development. 
+The `-D` (or `--save-dev`) flag means this tool is only needed while you're developing the app, not when it's running in production. 
+After running this command, you can use nodemon instead of node to run your server, and it will watch for any file changes and restart automatically.
+
+  "scripts": {
+    "dev": "nodemon server.js"
+    "start":"node server.js"
+  }, 
+  change the script to work make start run when deployed
+
+  lesson 3
+  Sure! Here's the same information presented pointwise:
+
+---
+
+### ✅ MERN Backend Best Practices – Project Structure (Pointwise)
+
+1. **Use a `src` folder**:
+
+   * Acts as the main directory for all source code.
+   * Keeps the project organized and clean.
+
+2. **Separate core components**:
+
+   * Create folders like `routes`, `controllers`, `models`, `middlewares`, and `utils` inside `src`.
+
+3. **Routes**:
+
+   * Handle API endpoint definitions (e.g., `/api/notes`).
+   * Keep them lightweight by just mapping endpoints to controllers.
+
+4. **Controllers**:
+
+   * Contain the business logic for each route.
+   * Help keep route files clean and focused.
+
+5. **Models**:
+
+   * Define the structure of your data (e.g., using Mongoose for MongoDB).
+   * Represent collections in the database.
+
+6. **Benefits of this structure**:
+
+   * Improves **code readability** and **maintainability**.
+   * Makes debugging and testing easier.
+   * Scales better for larger applications.
+   * Encourages clean separation of concerns and modular development.
+
+7. **Professional standard**:
+
+   * Follows widely accepted backend development conventions.
+   * Makes collaboration with other developers smoother.
+
+Here are the **simple steps to connect a Node.js backend with MongoDB** and use `.env` to protect the database connection string:
+
+---
+
+### ✅ Step-by-Step Guide
+
+#### 1. **Install required packages**
+
+```bash
+npm init -y
+npm install express mongoose dotenv
+```
+
+#### 2. **Create the basic folder structure**
+
+```
+project-folder/
+├── server.js
+├── .env
+├── .gitignore
+```
+
+#### 3. **Add `.env` file to store sensitive info**
+
+```env
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/dbname?retryWrites=true&w=majority
+PORT=5000
+```
+
+#### 4. **Add `.env` to `.gitignore`**
+
+```
+.env
+```
+
+#### 5. **server.js file setup**
+
+```js
+const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+dotenv.config(); // Load .env
+
+const app = express();
+app.use(express.json());
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('MongoDB connected!'))
+.catch(err => console.error('MongoDB connection failed:', err));
+
+// Simple route
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
+
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+```
+
+---
+
+### 🔒 Notes:
+
+* Always use `.env` for **secrets** like database credentials and API keys.
+* Never upload `.env` to GitHub.
+
+Let me know if you want to structure it in MVC or add routes/controllers!
+
+Here’s a **simple step-by-step guide** to create a **MongoDB Atlas database**:
+
+---
+
+### 🌐 Step 1: Go to MongoDB Atlas
+
+Visit: [https://www.mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas)
+
+---
+
+### 📝 Step 2: Sign Up or Log In
+
+* Create a free account (or log in if you already have one).
+* You can sign up with **email** or **GitHub/Google**.
+
+---
+
+### ☁️ Step 3: Create a Free Cluster
+
+* Click **"Build a Database"**.
+* Select the **Free Shared Cluster** option.
+* Choose your **cloud provider** (AWS, Azure, or GCP) and **region** close to your location.
+* Click **Create**.
+
+---
+
+### 🔐 Step 4: Create a Database User
+
+* Go to **"Database Access"** under the Security tab.
+* Click **"Add New Database User"**.
+
+  * Set a **username** and **password**.
+  * Choose **Read and Write access**.
+  * Click **Add User**.
+
+---
+
+### 🌍 Step 5: Whitelist Your IP Address
+
+* Go to **"Network Access"**.
+* Click **"Add IP Address"**.
+
+  * Add your current IP or allow all IPs with `0.0.0.0/0` (not recommended for production).
+  * Click **Confirm**.
+
+---
+
+### 🗂️ Step 6: Connect Your Cluster
+
+* Go to **"Database"** in the left sidebar.
+* Click **"Connect"** > **"Connect your application"**.
+* Choose **Driver: Node.js** and **version**.
+* Copy the **Connection String**:
+
+  ```
+  mongodb+srv://<username>:<password>@cluster0.mongodb.net/?retryWrites=true&w=majority
+  ```
+
+---
+
+### 🧪 Step 7: Paste the Connection String in `.env`
+
+```env
+MONGO_URI=mongodb+srv://your_user:your_password@cluster0.mongodb.net/your_db_name?retryWrites=true&w=majority
+```
+
+✅ Now your Node.js app is ready to connect with your MongoDB Atlas cluster!
+
+---
+
+Let me know if you need help creating a collection or inserting sample data.
+
+Here’s a **simple step-by-step guide to creating models in a Node.js backend** using **Mongoose** (for MongoDB):
+
+---
+
+## 🧩 What is a Model?
+
+A **model** defines the structure of your data — like a blueprint for your documents (records) in a MongoDB collection.
+
+---
+
+## ✅ Steps to Create a Model with Mongoose
+
+### 1. **Install Mongoose** (if not already)
+
+```bash
+npm install mongoose
+```
+
+---
+
+### 2. **Create a `models/` folder**
+
+```
+project-folder/
+├── models/
+│   └── User.js
+```
+
+---
+
+### 3. **Create a Sample Model (e.g., User.js)**
+
+```js
+// models/User.js
+
+const mongoose = require('mongoose');
+
+// Define schema
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  age: {
+    type: Number,
+    default: 18,
+  },
+}, {
+  timestamps: true // adds createdAt & updatedAt
+});
+
+// Create model
+const User = mongoose.model('User', userSchema);
+
+// Export model
+module.exports = User;
+```
+
+---
+
+### 4. **Use the Model in a Route or Controller**
+
+```js
+// routes/userRoutes.js (example usage)
+
+const express = require('express');
+const router = express.Router();
+const User = require('../models/User');
+
+// Create a new user
+router.post('/add', async (req, res) => {
+  try {
+    const newUser = new User(req.body); // assuming {name, email, age}
+    const savedUser = await newUser.save();
+    res.status(201).json(savedUser);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+module.exports = router;
+```
+
+---
+
+### 5. **Mount the Route in `server.js`**
+
+```js
+const userRoutes = require('./routes/userRoutes');
+app.use('/api/users', userRoutes);
+```
+
+---
+
+## 📝 Recap
+
+* Models are created with `mongoose.Schema`.
+* Export the model and use it in your routes/controllers.
+* Always keep models in a separate `models/` folder for clean structure.
+
+Let me know if you want to build models for specific data like products, blogs, or tasks!
+
+
+
+creating controllers
+
+CREATED THE CONTROLLERS FOR GET CREATE UPDATE DELETE IN notecontrollers.js
+
+middleware
+
+is a function that runs middle between responce and function
+app.use() = to add a middleware
+
+**Middleware** is a function that sits between the incoming request and the final response in a web application, especially in frameworks like Express.js. It acts like a gatekeeper or filter that can check, modify, or log the request before it reaches the actual route handler. Middleware is useful for tasks like checking if a user is authenticated, logging details of requests, handling errors, or parsing JSON data. Multiple middleware functions can be chained together, and each one decides whether to pass control to the next using the `next()` function.
+
+**Rate limiting** is a technique used to control how many times a user can send requests to your server within a specific time frame. It's mainly used for security purposes, like preventing abuse, spam, or denial-of-service (DDoS) attacks. For example, you can set a rule to allow only 100 requests per IP address every 15 minutes. If a user exceeds this limit, the server will temporarily block their requests and send a response like "429 Too Many Requests." Libraries like `express-rate-limit` make it easy to apply this protection in Express.js applications.
+use upstash to use that
+add link and token to enve
+npm i @upstash/ratelimit@2.0.5 @upstash/redis@1.34.9
+
+
+
+
+
+
+
+
+front end 
+`npm i react-router` installs **React Router**, a library used to handle routing in React applications. Routing means showing different components or pages based on the URL. For example, when a user goes to `/about`, you can display an `<About />` component without reloading the page. React Router helps you build single-page applications (SPAs) that feel fast and smooth by managing the browser's history and rendering the right content at the right time.
+
+`npm i react-hot-toast` installs **React Hot Toast**, a lightweight and modern toast notification library for React. It allows you to show small popup messages—called toasts—for things like success messages, errors, or loading states. For instance, after saving a note, you can show `toast.success("Note saved!")` to notify the user. It’s easy to use, looks good out of the box, and improves the overall user experience.
+
+imported the tailwind and daisy ui
+
+### `npm install lucide-react`
+
+The command `npm install lucide-react` installs the **Lucide React** icon library into your React project. Lucide is an open-source set of beautiful and consistent icons, and the `lucide-react` package provides these icons as React components. This makes it easy to import and use them in your React JSX code like `<Home />` or `<User />`. Once installed, you can import icons directly from the package and style them with props such as `size`, `color`, or using CSS classes.
+
+---
+
+### `npm i axios`
+
+The command `npm i axios` installs **Axios**, a popular JavaScript library used to make HTTP requests from the browser or Node.js. Axios is often used in React apps to interact with APIs — such as fetching data from a server, submitting forms, or handling authentication. It supports promises and provides useful features like automatic JSON parsing, request cancellation, and error handling. After installation, you can import it in your code with `import axios from 'axios';` and use it for requests like `axios.get()`, `axios.post()`, etc.
+
+api handling
+ install cors to backend
+
+ npm i cors 
+ add that in server.js as a middleware
+
+
+
+ deploying
+
+ to git GitHub
+ git init
+ git add .
+ git commit -m "initial commit"
