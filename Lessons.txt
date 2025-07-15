@@ -396,3 +396,26 @@ api handling
  git init
  git add .
  git commit -m "initial commit"
+ git remote add origin https://github.com/Darshana-stan/Note-App-Tutorial.git
+git branch -M main
+git push -u origin main
+
+To install dependencies
+npm init -y
+add to pkg.json
+
+  "scripts": {
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend"}
+
+go to server.js
+import path from "path";
+
+    //providing static files from the frontend build directory
+    app.use(express.static(path.join(__dirname, "../frontend/dist")));
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+    })
+
+    ADD THE ENV IN env
+
+    
